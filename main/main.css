@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Tiro+Bangla:ital@0;1&display=swap');
+
+body{
+    background: linear-gradient(135deg, #fcfcff 0%, #d3d2d5 100%);
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.font-google{
+    font-family: "Google Sans", sans-serif;
+}
+
+.font-Oswald{
+    font-family: "Oswald", sans-serif;
+    letter-spacing: 1px;
+}
+
+.font-tiro{
+    font-family: "Tiro Bangla", serif;
+    letter-spacing: 1px;
+}
+
+.sticky-nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.hero-background{
+    background: linear-gradient(135deg, #426fc9 0%, #bca1f2 100%);
+}
+
+
+.swiper-pagination-bullet-active {
+    background-color: #f59e0b !important; /* amber-500 */
+    opacity: 1;
+}
+
+.animate-fade-right {
+        animation: fadeInRight 0.6s ease-out forwards;
+    }
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+
+
+
