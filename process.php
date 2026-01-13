@@ -14,6 +14,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $_SESSION['score'] = ($_SESSION['score'] ?? 0) + 1;
     }
 
+    $_SESSION['user_answers'][$question_id] = $user_answer;
+
     $_SESSION['quiz_step']++;
     $nextStepIndex = $_SESSION['quiz_step'] - 1;
 

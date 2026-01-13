@@ -38,65 +38,83 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
+<!DOCTYPE html>
+<html lang="en">
 
-<div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 max-w-6xl mx-auto">
-    <div class="flex items-center justify-between mb-6">
-        <h2 class="text-xl font-bold text-gray-800">Edit Question</h2>
-        <a href="index.php?page=view_questions" class="text-sm text-gray-500 hover:text-amber-600">Back to List</a>
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="/main/img/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/main/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>quiz app</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+</head>
+
+<body>
+    <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 max-w-6xl mx-auto">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-xl font-bold text-gray-800">Edit Question</h2>
+            <a href="index.php?page=view_questions" class="text-sm text-gray-500 hover:text-amber-600">Back to List</a>
+        </div>
+
+        <?php echo $message; ?>
+
+        <form action="" method="POST" class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Question Text</label>
+                <textarea name="question_text" required
+                    class="w-full border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-amber-400 focus:outline-none"><?= htmlspecialchars($question['question_text']) ?></textarea>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm text-gray-600 mb-1">Option A</label>
+                    <input type="text" name="option_a" value="<?= htmlspecialchars($question['option_a']) ?>" required
+                        class="w-full border border-gray-200 px-4 py-2 rounded-xl focus:ring-2 focus:ring-amber-400 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-600 mb-1">Option B</label>
+                    <input type="text" name="option_b" value="<?= htmlspecialchars($question['option_b']) ?>" required
+                        class="w-full border border-gray-200 px-4 py-2 rounded-xl focus:ring-2 focus:ring-amber-400 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-600 mb-1">Option C</label>
+                    <input type="text" name="option_c" value="<?= htmlspecialchars($question['option_c']) ?>" required
+                        class="w-full border border-gray-200 px-4 py-2 rounded-xl focus:ring-2 focus:ring-amber-400 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-600 mb-1">Option D</label>
+                    <input type="text" name="option_d" value="<?= htmlspecialchars($question['option_d']) ?>" required
+                        class="w-full border border-gray-200 px-4 py-2 rounded-xl focus:ring-2 focus:ring-amber-400 focus:outline-none">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-bold text-gray-700 mb-1">Correct Option</label>
+                <select name="correct_option"
+                    class="w-full border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-amber-400">
+                    <option value="a" <?= $question['correct_option'] == 'a' ? 'selected' : '' ?>>Option A</option>
+                    <option value="b" <?= $question['correct_option'] == 'b' ? 'selected' : '' ?>>Option B</option>
+                    <option value="c" <?= $question['correct_option'] == 'c' ? 'selected' : '' ?>>Option C</option>
+                    <option value="d" <?= $question['correct_option'] == 'd' ? 'selected' : '' ?>>Option D</option>
+                </select>
+            </div>
+
+            <div class="flex gap-3">
+                <button type="submit"
+                    class="flex-1 py-3 bg-amber-500 text-white font-semibold rounded-xl hover:bg-amber-600 transition shadow-md">
+                    Update Question
+                </button>
+                <a href="index.php?page=view_questions"
+                    class="px-6 py-3 bg-gray-100 text-gray-600 font-semibold rounded-xl hover:bg-gray-200 transition text-center">
+                    Cancel
+                </a>
+            </div>
+        </form>
     </div>
 
-    <?php echo $message; ?>
+</body>
 
-    <form action="" method="POST" class="space-y-4">
-        <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Question Text</label>
-            <textarea name="question_text" required
-                class="w-full border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-amber-400 focus:outline-none"><?= htmlspecialchars($question['question_text']) ?></textarea>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-                <label class="block text-sm text-gray-600 mb-1">Option A</label>
-                <input type="text" name="option_a" value="<?= htmlspecialchars($question['option_a']) ?>" required
-                    class="w-full border border-gray-200 px-4 py-2 rounded-xl focus:ring-2 focus:ring-amber-400 focus:outline-none">
-            </div>
-            <div>
-                <label class="block text-sm text-gray-600 mb-1">Option B</label>
-                <input type="text" name="option_b" value="<?= htmlspecialchars($question['option_b']) ?>" required
-                    class="w-full border border-gray-200 px-4 py-2 rounded-xl focus:ring-2 focus:ring-amber-400 focus:outline-none">
-            </div>
-            <div>
-                <label class="block text-sm text-gray-600 mb-1">Option C</label>
-                <input type="text" name="option_c" value="<?= htmlspecialchars($question['option_c']) ?>" required
-                    class="w-full border border-gray-200 px-4 py-2 rounded-xl focus:ring-2 focus:ring-amber-400 focus:outline-none">
-            </div>
-            <div>
-                <label class="block text-sm text-gray-600 mb-1">Option D</label>
-                <input type="text" name="option_d" value="<?= htmlspecialchars($question['option_d']) ?>" required
-                    class="w-full border border-gray-200 px-4 py-2 rounded-xl focus:ring-2 focus:ring-amber-400 focus:outline-none">
-            </div>
-        </div>
-
-        <div>
-            <label class="block text-sm font-bold text-gray-700 mb-1">Correct Option</label>
-            <select name="correct_option"
-                class="w-full border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-amber-400">
-                <option value="a" <?= $question['correct_option'] == 'a' ? 'selected' : '' ?>>Option A</option>
-                <option value="b" <?= $question['correct_option'] == 'b' ? 'selected' : '' ?>>Option B</option>
-                <option value="c" <?= $question['correct_option'] == 'c' ? 'selected' : '' ?>>Option C</option>
-                <option value="d" <?= $question['correct_option'] == 'd' ? 'selected' : '' ?>>Option D</option>
-            </select>
-        </div>
-
-        <div class="flex gap-3">
-            <button type="submit"
-                class="flex-1 py-3 bg-amber-500 text-white font-semibold rounded-xl hover:bg-amber-600 transition shadow-md">
-                Update Question
-            </button>
-            <a href="index.php?page=view_questions"
-                class="px-6 py-3 bg-gray-100 text-gray-600 font-semibold rounded-xl hover:bg-gray-200 transition text-center">
-                Cancel
-            </a>
-        </div>
-    </form>
-</div>
+</html>

@@ -2,12 +2,17 @@
 session_start();
 require_once 'db.php';
 
+
 if (isset($_GET['reset']) || !isset($_SESSION['quiz_step'])) {
     $_SESSION['quiz_step'] = 1;
     $_SESSION['score'] = 0;
 
-    $stmt = $pdo->query("SELECT id FROM questions ORDER BY id DESC LIMIT 20");
-    $_SESSION['quiz_ids'] = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+    $stmt = $pdo->query("SELECT * FROM questions ORDER BY id DESC LIMIT 20");
+    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $_SESSION['quiz_questions_data'] = $data;
+    $_SESSION['quiz_ids'] = array_column($data, 'id');
 
     if (isset($_GET['reset'])) {
         header("Location: index.php");
@@ -68,7 +73,7 @@ if (!$isFinished) {
                 <div class="flex items-center gap-3">
                     <img src="/main/img/new logo.png" alt="Logo" class="w-10 h-10 object-contain">
                     <h1 class="text-xl font-bold tracking-tight text-gray-800">
-                        <a href="index.php">ALL QUIZ</a>
+                        <a href="index.php">প্রশ্নমালা</a>
                     </h1>
                 </div>
             </div>
@@ -476,7 +481,7 @@ if (!$isFinished) {
     <section class="max-w-6xl mx-auto p-8 bg-white shadow-xl h-[550px]">
         <div class="flex flex-col items-center font-tiro">
             <h1 class="text-2xl font-semibold mb-8 text-amber-600 border-b-2 border-amber-500 pb-2">
-                আজকের কুইজ
+                আজকের প্রশ্ন মালা
             </h1>
 
             <div class="w-full max-w-2xl bg-white p-1 sm:p-6">
@@ -488,11 +493,20 @@ if (!$isFinished) {
                         <p class="text-2xl text-gray-700 mb-6">আপনার চূড়ান্ত স্কোর:
                             <span class="font-bold text-green-600"><?php echo $_SESSION['score'] ?? 0; ?></span>
                         </p>
-                        <a href="index.php?reset=1"
-                            class="inline-block py-3 px-10 bg-amber-500 text-white font-bold rounded-xl hover:bg-amber-600 transition shadow-lg">
-                            আবার শুরু করুন
-                        </a>
+
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                            <a href="index.php?reset=1"
+                                class="inline-block py-3 px-10 bg-amber-500 text-white font-bold rounded-xl hover:bg-amber-600 transition shadow-lg">
+                                আবার শুরু করুন
+                            </a>
+
+                            <button onclick="showAnswers()"
+                                class="inline-block py-3 px-10 bg-gray-800 text-white font-bold rounded-xl hover:bg-gray-900 transition shadow-lg cursor-pointer">
+                                উত্তর দেখুন
+                            </button>
+                        </div>
                     </div>
+
 
                 <?php elseif ($showLoginNotice): ?>
                     <div class="text-center py-10">
@@ -589,7 +603,9 @@ if (!$isFinished) {
 
 <script src="/main/main.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+
     var swiper = new Swiper(".mySwiper", {
         loop: true,
         spaceBetween: 30,
@@ -608,7 +624,7 @@ if (!$isFinished) {
             enabled: true,
         },
     });
-
+    // next question button
     const answers = document.querySelectorAll('input[name="answer"]');
     const nextBtn = document.getElementById('nextBtn');
 
@@ -618,5 +634,47 @@ if (!$isFinished) {
             nextBtn.classList.remove('opacity-50', 'cursor-not-allowed');
             nextBtn.classList.add('cursor-pointer');
         });
-    }); 
+    });
+    // all question answer show
+    function showAnswers() {
+        const questions = <?php echo json_encode($_SESSION['quiz_questions_data'] ?? []); ?>;
+        const userAnswers = <?php echo json_encode($_SESSION['user_answers'] ?? []); ?>;
+
+        let content = '<div class="text-left space-y-4 max-h-[60vh] overflow-y-auto pr-2">';
+
+        questions.forEach((q, index) => {
+            const uAns = userAnswers[q.id];
+            const cAns = q.correct_option;
+            const isCorrect = (uAns === cAns);
+
+            content += `
+            <div class="border-b pb-3 p-2 ${isCorrect ? 'bg-green-50' : 'bg-red-50'} rounded-lg">
+                <p class="font-bold text-gray-800">${index + 1}. ${q.question_text}</p>
+                
+                <p class="text-sm mt-1">
+                    <span class="font-semibold text-gray-600">আপনার উত্তর:</span> 
+                    <span class="${isCorrect ? 'text-green-600' : 'text-red-600'} font-bold">
+                        ${uAns ? q['option_' + uAns] : 'উত্তর দেননি'}
+                    </span>
+                    ${isCorrect ? ' ✅' : ' ❌'}
+                </p>
+
+                ${!isCorrect ? `
+                <p class="text-sm text-green-700 mt-1">
+                    <span class="font-semibold">সঠিক উত্তর:</span> ${q['option_' + cAns]}
+                </p>` : ''}
+            </div>
+        `;
+        });
+
+        content += '</div>';
+
+        Swal.fire({
+            title: 'ফলাফল বিশ্লেষণ',
+            html: content,
+            width: '600px',
+            confirmButtonColor: '#f59e0b',
+            confirmButtonText: 'ঠিক আছে'
+        });
+    }
 </script>

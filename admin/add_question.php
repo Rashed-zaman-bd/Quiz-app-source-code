@@ -83,6 +83,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </select>
             </div>
             <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">আপলোড করুন</button>
+            <a href="index.php?page=view_questions" class="bg-gray-600 text-white px-6 py-2 rounded ml-6">Back to
+                List</a>
         </form>
     </div>
 </body>
