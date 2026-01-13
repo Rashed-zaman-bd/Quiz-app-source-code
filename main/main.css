@@ -38,7 +38,7 @@ body{
 
 
 .swiper-pagination-bullet-active {
-    background-color: #f59e0b !important; /* amber-500 */
+    background-color: #f59e0b !important; 
     opacity: 1;
 }
 

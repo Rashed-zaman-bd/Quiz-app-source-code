@@ -3,7 +3,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
     exit('Unauthorized Access');
 }
 
-// প্রশ্ন ডিলিট করার লজিক
 if (isset($_GET['delete_id'])) {
     $id = $_GET['delete_id'];
     $stmt = $pdo->prepare("DELETE FROM questions WHERE id = ?");
@@ -12,35 +11,49 @@ if (isset($_GET['delete_id'])) {
     }
 }
 
-// সব প্রশ্ন তুলে আনা
 $stmt = $pdo->query("SELECT * FROM questions ORDER BY id DESC");
 $questions = $stmt->fetchAll();
 ?>
 
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
-<style>
-    /* টেবিল স্টাইল কাস্টমাইজেশন */
-    .dataTables_wrapper .dataTables_length select {
-        padding: 5px;
-        border-radius: 8px;
-        border: 1px solid #ddd;
-    }
 
-    .dataTables_wrapper .dataTables_filter input {
-        padding: 6px 12px;
-        border-radius: 8px;
-        border: 1px solid #ddd;
-        margin-bottom: 10px;
-    }
+<!DOCTYPE html>
+<html lang="en">
 
-    table.dataTable thead th {
-        border-bottom: 1px solid #eee !important;
-    }
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="/main/img/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/main/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>quiz app</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
-    table.dataTable td {
-        border-bottom: 1px solid #f9f9f9 !important;
-    }
-</style>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <style>
+        .dataTables_wrapper .dataTables_length select {
+            padding: 5px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .dataTables_wrapper .dataTables_filter input {
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+        }
+
+        table.dataTable thead th {
+            border-bottom: 1px solid #eee !important;
+        }
+
+        table.dataTable td {
+            border-bottom: 1px solid #f9f9f9 !important;
+        }
+    </style>
+
+</head>
+
 
 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
     <div class="flex flex-row justify-between items-center mb-6 gap-4">
@@ -50,24 +63,26 @@ $questions = $stmt->fetchAll();
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
             </svg>
-            Add New Question
+            Add Question
         </a>
     </div>
 
-    <div class="overflow-x-auto">
+    <div class="overflow-x-auto pb-6">
         <table id="questionTable" class="w-full text-left display">
             <thead>
                 <tr class="bg-gray-50 border-b">
                     <th class="p-1 text-sm font-semibold text-gray-600">ID</th>
                     <th class="p-1 text-sm font-semibold text-gray-600">Question</th>
                     <th class="p-1 text-sm font-semibold text-gray-600">Options (Correct)</th>
+                    <th class="p-1 text-sm font-semibold text-gray-600">Date</th>
                     <th class="p-1 text-sm font-semibold text-gray-600 text-center">Actions</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="">
+                <?php $serial = 1; // Initialize counter ?>
                 <?php foreach ($questions as $q): ?>
                     <tr class="border-b hover:bg-gray-50 transition">
-                        <td class=" text-sm text-gray-500"><?= $q['id'] ?></td>
+                        <td class="text-sm text-gray-500"><?= $serial++ ?></td>
                         <td class=" text-sm font-medium text-gray-800 w-1/3">
                             <?= htmlspecialchars($q['question_text']) ?>
                         </td>
@@ -86,6 +101,9 @@ $questions = $stmt->fetchAll();
                                     <?= htmlspecialchars($q['option_d']) ?>
                                 </li>
                             </ul>
+                        </td>
+                        <td class="p-1 text-center">
+                            <?= htmlspecialchars($q['created_at']) ?>
                         </td>
                         <td class="p-1 text-center">
                             <div class="flex justify-center gap-2">
@@ -107,10 +125,12 @@ $questions = $stmt->fetchAll();
                                     </svg>
                                 </a>
                             </div>
+                            <div class=""></div>
                         </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
+
         </table>
     </div>
 </div>
@@ -122,12 +142,11 @@ $questions = $stmt->fetchAll();
     $(document).ready(function () {
         $('#questionTable').DataTable({
             pageLength: 10,
-            lengthMenu: [[10, 20, 50, 100, -1], [10, 20, 50, 100, "All"]],
+            lengthMenu: [[10, 20, 50, 100], [10, 20, 50, 100, "All"]],
             language: {
                 search: "Search Questions:",
                 lengthMenu: "Show _MENU_ entries",
             },
-            order: [[0, "desc"]],
             columnDefs: [
                 {
                     targets: 0, // ID column

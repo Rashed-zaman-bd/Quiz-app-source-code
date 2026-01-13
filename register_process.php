@@ -6,14 +6,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $errors = [];
     $old = $_POST;
 
-    // ১. ইনপুট স্যানিটাইজেশন
     $name = htmlspecialchars(strip_tags(trim($_POST['name'])));
     $mobile = htmlspecialchars(strip_tags(trim($_POST['mobile'])));
     $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
 
-    // ২. ভ্যালিডেশন
     if (empty($name)) {
         $errors['name'] = "পূর্ণ নাম লিখুন!";
     }
@@ -36,11 +34,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors['confirm_password'] = "পাসওয়ার্ড মেলেনি!";
     }
 
-    // ৩. ইমেজ আপলোড
 
-    // Default image
-
-    $profileImage = "uploads/users/default.png"; // ডিফল্ট ছবি
+    $profileImage = "uploads/users/default.png";
 
     if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] === UPLOAD_ERR_OK) {
         $allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
@@ -54,22 +49,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             $uploadDir = "uploads/users/";
 
-            // ফোল্ডার না থাকলে তৈরি করবে
             if (!is_dir($uploadDir)) {
                 mkdir($uploadDir, 0755, true);
             }
 
-            // ফাইলের এক্সটেনশন বের করা
             $fileExt = pathinfo($_FILES['profile_image']['name'], PATHINFO_EXTENSION);
-            // ইউনিক নাম তৈরি করা
             $fileName = uniqid("user_", true) . "." . $fileExt;
             $filePath = $uploadDir . $fileName;
 
             if (move_uploaded_file($_FILES['profile_image']['tmp_name'], $filePath)) {
-                // এখানে $filePath এর মান হবে "uploads/users/user_6963...png"
                 $profileImage = $filePath;
 
-                // সেশনে পূর্ণ পাথ সেভ করা হচ্ছে
                 $_SESSION['profile_image'] = $profileImage;
             } else {
                 $errors['profile_image'] = "ফাইল আপলোড করতে সমস্যা হয়েছে!";
@@ -77,7 +67,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    // ৪. যদি কোনো এরর না থাকে তবে ডাটাবেসে সেভ
     if (empty($errors)) {
         try {
             $checkUser = $pdo->prepare("SELECT id FROM user WHERE mobile = :mobile OR email = :email LIMIT 1");
@@ -97,16 +86,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     'profile_image' => $profileImage
                 ]);
 
-                // সফল হলে
-                header("Location: login.php?success=Registration Successful");
-                exit;
+                $_SESSION['success_message'] = true;
+                header("Location: register.php");
+                exit();
+
             }
         } catch (PDOException $e) {
             $errors['general'] = "ডাটাবেস ত্রুটি!";
         }
     }
 
-    // এরর থাকলে সেশনে ডাটা রেখে ফেরত পাঠানো
     $_SESSION['errors'] = $errors;
     $_SESSION['old'] = $old;
     header("Location: register.php");

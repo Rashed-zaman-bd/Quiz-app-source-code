@@ -253,7 +253,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
                 include 'edit_question.php';
                 break;
             default:
-                // ডিফল্ট ড্যাশবোর্ড স্ট্যাটাস কার্ডগুলো এখানে থাকবে
                 echo '<h2 class="text-2xl font-bold">Welcome Admin</h2>';
                 break;
         }

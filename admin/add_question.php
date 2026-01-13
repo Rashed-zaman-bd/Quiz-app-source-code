@@ -1,6 +1,5 @@
 <?php
 
-// অ্যাডমিন চেক (নিরাপত্তার জন্য)
 if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
     header("Location: ../login.php");
     exit;

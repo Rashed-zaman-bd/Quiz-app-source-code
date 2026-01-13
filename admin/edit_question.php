@@ -1,5 +1,4 @@
 <?php
-// index.php এর ভেতর লোড হবে তাই session_start বা db কানেকশন লাগবে না
 if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
     exit('Unauthorized Access');
 }
@@ -12,7 +11,6 @@ if (!$id) {
     exit;
 }
 
-// বর্তমান ডাটা তুলে আনা
 $stmt = $pdo->prepare("SELECT * FROM questions WHERE id = ?");
 $stmt->execute([$id]);
 $question = $stmt->fetch();
@@ -22,7 +20,6 @@ if (!$question) {
     exit;
 }
 
-// আপডেট লজিক
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $q_text = htmlspecialchars($_POST['question_text']);
     $a = htmlspecialchars($_POST['option_a']);

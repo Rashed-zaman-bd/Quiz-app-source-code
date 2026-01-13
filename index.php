@@ -2,44 +2,36 @@
 session_start();
 require_once 'db.php';
 
-// ১. কুইজ শেষ হয়েছে কি না চেক করা
-$isFinished = (isset($_GET['status']) && $_GET['status'] === 'finished');
-
-// ২. রিসেট লজিক
 if (isset($_GET['reset']) || !isset($_SESSION['quiz_step'])) {
     $_SESSION['quiz_step'] = 1;
     $_SESSION['score'] = 0;
+
+    $stmt = $pdo->query("SELECT id FROM questions ORDER BY id DESC LIMIT 20");
+    $_SESSION['quiz_ids'] = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
     if (isset($_GET['reset'])) {
         header("Location: index.php");
         exit;
     }
 }
 
-// ৩. বর্তমান ধাপ নির্ধারণ
+$isFinished = (isset($_GET['status']) && $_GET['status'] === 'finished');
 $currentStep = $_SESSION['quiz_step'];
-
-// ৪. প্রশ্ন লোড করার লজিক (যদি কুইজ শেষ না হয়)
-$question = null;
 $showLoginNotice = false;
+$question = null;
 
 if (!$isFinished) {
     if ($currentStep > 10 && !isset($_SESSION['user_id'])) {
         $showLoginNotice = true;
     } else {
-        $questionId = isset($_GET['id']) ? (int) $_GET['id'] : null;
+        $currentQuestionIndex = $currentStep - 1;
 
-        // প্রথমবার আসলে প্রথম প্রশ্নটি খুঁজে বের করা
-        if (!$questionId) {
-            $firstQ = $pdo->query("SELECT id FROM questions ORDER BY id ASC LIMIT 1")->fetch();
-            $questionId = $firstQ ? $firstQ['id'] : 0;
-        }
-
-        $stmt = $pdo->prepare("SELECT * FROM questions WHERE id = ?");
-        $stmt->execute([$questionId]);
-        $question = $stmt->fetch();
-
-        // যদি ২০ ধাপের আগে প্রশ্ন শেষ হয়ে যায়, তবে শেষ হিসেবে গণ্য হবে
-        if (!$question && $currentStep > 1) {
+        if (isset($_SESSION['quiz_ids'][$currentQuestionIndex])) {
+            $questionId = $_SESSION['quiz_ids'][$currentQuestionIndex];
+            $stmt = $pdo->prepare("SELECT * FROM questions WHERE id = ?");
+            $stmt->execute([$questionId]);
+            $question = $stmt->fetch();
+        } else {
             $isFinished = true;
         }
     }
@@ -481,7 +473,7 @@ if (!$isFinished) {
         </div>
     </section>
 
-    <section class="max-w-6xl mx-auto p-8 bg-white shadow-xl">
+    <section class="max-w-6xl mx-auto p-8 bg-white shadow-xl h-[550px]">
         <div class="flex flex-col items-center font-tiro">
             <h1 class="text-2xl font-semibold mb-8 text-amber-600 border-b-2 border-amber-500 pb-2">
                 আজকের কুইজ
@@ -516,7 +508,7 @@ if (!$isFinished) {
                 <?php elseif ($question): ?>
                     <form action="process.php" method="POST">
                         <div class="animate-fade-right">
-                            <p class="text-xl font-semibold mb-4 text-gray-800 leading-relaxed">
+                            <p class="text-lg font-semibold mb-4 text-gray-800 leading-relaxed">
                                 <?php echo $question['question_text']; ?>
                             </p>
 
@@ -572,8 +564,16 @@ if (!$isFinished) {
                         <div class="flex items-center justify-between mt-10 border-t pt-6">
                             <span class="text-gray-400 text-sm italic">ধাপ <?php echo $currentStep; ?> / 20</span>
                             <button id="nextBtn" type="submit" disabled
-                                class="py-2 px-8 border-2 border-amber-500 text-amber-600 font-semibold text-lg rounded-xl enabled:bg-amber-500 enabled:text-white disabled:opacity-50">
-                                <?php echo ($currentStep == 10 && !isset($_SESSION['user_id'])) ? "স্কোর দেখুন ও ২য় রাউন্ড" : "পরবর্তী প্রশ্ন"; ?>
+                                class="py-2 px-4 border-2 border-amber-500 text-amber-600 font-semibold text-lg rounded-xl enabled:bg-amber-500 enabled:text-white disabled:opacity-50">
+                                <?php
+                                if ($currentStep == 10 && !isset($_SESSION['user_id'])) {
+                                    echo "স্কোর দেখুন ও ২য় রাউন্ড";
+                                } elseif ($currentStep == 20) {
+                                    echo "ফলাফল দেখুন";
+                                } else {
+                                    echo "পরবর্তী প্রশ্ন";
+                                }
+                                ?>
                             </button>
                         </div>
                     </form>
@@ -609,7 +609,6 @@ if (!$isFinished) {
         },
     });
 
-    //submit button enable code
     const answers = document.querySelectorAll('input[name="answer"]');
     const nextBtn = document.getElementById('nextBtn');
 

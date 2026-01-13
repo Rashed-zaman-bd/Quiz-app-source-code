@@ -2,6 +2,7 @@
 session_start();
 require_once 'db.php';
 
+// ১. যদি অলরেডি লগইন থাকে, তবে সরাসরি ড্যাশবোর্ডে পাঠিয়ে দেওয়া
 if (isset($_SESSION['user_id'])) {
     if ($_SESSION['user_role'] === 'admin') {
         header("Location: admin/index.php");
@@ -13,6 +14,7 @@ if (isset($_SESSION['user_id'])) {
 
 $error = "";
 
+// ২. লগইন ফর্ম সাবমিট হলে
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $mobile = htmlspecialchars(strip_tags(trim($_POST['mobile'])));
     $password = $_POST['password'];
@@ -27,25 +29,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if ($user) {
                 if (password_verify($password, $user['password'])) {
+                    // লগইন সফল
                     session_regenerate_id(true);
 
+                    // সেশনে ডাটা রাখা
                     $_SESSION['user_id'] = $user['id'];
                     $_SESSION['user_name'] = $user['name'];
                     $_SESSION['user_role'] = $user['role'];
                     $_SESSION['profile_image'] = $user['profile_image'];
 
+                    // --- স্মার্ট রিডাইরেক্ট লজিক শুরু ---
 
+                    // কুইজের Round 2 রিডাইরেক্ট চেক (URL এ যদি redirect_to_quiz থাকে)
                     if (isset($_GET['redirect_to_quiz']) && $_GET['redirect_to_quiz'] == 'round2') {
                         header("Location: index.php?id=11");
                         exit;
                     }
 
+                    // রোল চেক করে পেজ নির্ধারণ
                     if ($user['role'] === 'admin') {
                         header("Location: admin/index.php");
                     } else {
                         header("Location: index.php");
                     }
                     exit;
+                    // --- স্মার্ট রিডাইরেক্ট লজিক শেষ ---
 
                 } else {
                     $error = "ভুল পাসওয়ার্ড! আবার চেষ্টা করুন।";
@@ -70,10 +78,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
 
     <div class="w-full max-w-md bg-white p-8 rounded-2xl shadow-lg">
         <h2 class="text-2xl font-bold text-center text-amber-600 mb-6 font-sans">Login to Account</h2>
