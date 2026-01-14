@@ -12,6 +12,10 @@ body{
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 .font-google{
     font-family: "Google Sans", sans-serif;
 }
@@ -30,6 +34,13 @@ body{
     position: sticky;
     top: 0;
     z-index: 50;
+}
+
+.top-navbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: white; /* Add background color */
 }
 
 .hero-background{
@@ -55,6 +66,20 @@ body{
         opacity: 1;
         transform: translateX(0);
     }
+}
+
+.parallax {
+  /* The image used */
+  background-image: url("./img/img_parallax.jpg");
+
+  /* Set a specific height */
+  min-height: 500px; 
+
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 

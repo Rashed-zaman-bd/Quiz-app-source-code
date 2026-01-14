@@ -23,17 +23,17 @@ window.addEventListener("click", () => {
 const mobileMenuBtn = document.getElementById("mobile-menu-btn");
 const mobileSidebar = document.getElementById("mobile-sidebar");
 const sidebarOverlay = document.getElementById("sidebar-overlay");
-const closeSidebar = document.getElementById("close-sidebar");
+const closeSidebarBtn = document.getElementById("close-sidebar");
 
 const toggleSidebar = () => {
   const isOpen = !mobileSidebar.classList.contains("-translate-x-full");
   if (isOpen) {
     mobileSidebar.classList.add("-translate-x-full");
-    sidebarOverlay.classList.add("hidden");
     sidebarOverlay.classList.replace("opacity-100", "opacity-0");
+    setTimeout(() => sidebarOverlay.classList.add("hidden"), 300); // Wait for fade out
   } else {
-    mobileSidebar.classList.remove("-translate-x-full");
     sidebarOverlay.classList.remove("hidden");
+    mobileSidebar.classList.remove("-translate-x-full");
     setTimeout(
       () => sidebarOverlay.classList.replace("opacity-0", "opacity-100"),
       10
@@ -42,22 +42,36 @@ const toggleSidebar = () => {
 };
 
 mobileMenuBtn.addEventListener("click", toggleSidebar);
-closeSidebar.addEventListener("click", toggleSidebar);
+closeSidebarBtn.addEventListener("click", toggleSidebar);
 sidebarOverlay.addEventListener("click", toggleSidebar);
 
 // NEW: Mobile Sub-menu (Accordion) Logic
 const dropdownBtns = document.querySelectorAll(".mobile-dropdown-btn");
 
 dropdownBtns.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    // Find the <ul> right after this button
+  btn.addEventListener("click", (e) => {
+    e.preventDefault(); // Prevent jump if it's a button
     const subMenu = btn.nextElementSibling;
     const arrowIcon = btn.querySelector("svg");
 
     // Toggle visibility
     subMenu.classList.toggle("hidden");
 
-    // Optional: Rotate the arrow icon when open
+    // Rotate arrow icon
     arrowIcon.classList.toggle("rotate-180");
   });
 });
+
+// IMPROVED: Logic to close sidebar when ANY link is clicked
+// This ensures that when you click "About" or "MCQ", the sidebar disappears
+const allSidebarLinks = mobileSidebar.querySelectorAll("a");
+
+allSidebarLinks.forEach((link) => {
+  link.addEventListener("click", () => {
+    // Only close if it's not a dropdown toggle
+    if (!link.classList.contains("mobile-dropdown-btn")) {
+      toggleSidebar();
+    }
+  });
+});
+///////////////

@@ -58,9 +58,9 @@ if (!$isFinished) {
 </head>
 
 <body>
-    <section class="max-w-6xl mx-auto top-navbar">
+    <section class="top-navbar">
         <nav
-            class="bg-white py-2 px-6 shadow-md flex items-center justify-between font-google sticky-nav sticky top-0 z-50">
+            class="max-w-6xl mx-auto bg-white py-2 px-6 shadow-md flex items-center justify-between font-google sticky top-0 z-50">
 
             <div class="flex items-center gap-4">
                 <button id="mobile-menu-btn" class="lg:hidden text-gray-700 focus:outline-none">
@@ -79,7 +79,9 @@ if (!$isFinished) {
             </div>
 
             <ul class="hidden lg:flex items-center gap-8 text-gray-600 font-medium">
-                <li class="hover:text-amber-600 cursor-pointer transition">Home</li>
+                <li class="hover:text-amber-600 cursor-pointer transition">
+                    <a href="/">Home</a>
+                </li>
 
                 <li class="group relative py-4 hover:text-amber-600 cursor-pointer transition">
                     <span class="flex items-center">
@@ -159,7 +161,9 @@ if (!$isFinished) {
                     </ul>
                 </li>
 
-                <li class="hover:text-amber-600 cursor-pointer transition">About</li>
+                <li class="hover:text-amber-600 cursor-pointer transition">
+                    <a href="#about">About Us</a>
+                </li>
                 <li class="hover:text-amber-600 cursor-pointer transition">FAQ</li>
                 <li class="hover:text-amber-600 cursor-pointer transition capitalize">Contact</li>
             </ul>
@@ -335,14 +339,12 @@ if (!$isFinished) {
                     </ul>
                 </li>
 
-                <li><a href="#" class="block py-2 hover:text-amber-600 transition">About</a></li>
+                <a href="#about" class="sidebar-link block py-2 hover:text-amber-600 transition">About</a>
                 <li><a href="#" class="block py-2 hover:text-amber-600 transition">FAQ</a></li>
                 <li><a href="#" class="block py-2 hover:text-amber-600 transition">Contact</a></li>
             </ul>
         </div>
     </section>
-
-
 
     <section class="max-w-6xl mx-auto">
         <div class="flex flex-col sm:flex-row h-auto sm:h-[300px] overflow-hidden hero-background w-full">
@@ -350,7 +352,7 @@ if (!$isFinished) {
             <div class="flex-1 flex flex-col items-center justify-center p-4">
                 <div class="flex flex-row items-center justify-center gap-4">
                     <img src="/main/img/globe.gif" alt="globe" class="w-16 h-16 sm:w-32 sm:h-32 object-contain">
-                    <h1 class="text-lg sm:text-2xl font-bold text-white font-tiro">অল কুইজ</h1>
+                    <h1 class="text-lg sm:text-2xl font-bold text-white font-tiro">প্রশ্নমালা</h1>
                     <img src="/main/img/brain.png" alt="brain" class="w-16 h-16 sm:w-32 sm:h-32 object-contain">
                 </div>
                 <div class="mt-2 text-center">
@@ -366,122 +368,44 @@ if (!$isFinished) {
                 <img src="/main/img/line.png" alt="" class="h-4/5 w-auto">
             </div>
 
-            <div
-                class="hidden sm:flex flex-1 flex items-center justify-center p-2 bg-gray-50 sm:bg-transparent font-tiro">
+            <div class="hidden sm:flex flex-1 items-center justify-center p-2 bg-gray-50 sm:bg-transparent">
                 <div class="swiper mySwiper w-full max-w-xl mx-auto">
-                    <div class="swiper-wrapper pb-4">
+                    <div class="swiper-wrapper pb-1">
 
-                        <div class="swiper-slide p-6">
-                            <div class="flex flex-col ">
-                                <p class="text-lg font-bold mb-6 text-gray-800">
-                                    প্রশ্ন : 'আমার দেখা রাজনীতির পঞ্চাশ বছর' গ্রন্থটির রচয়িতা কে?
-                                </p>
-                                <div class="grid grid-cols-2 gap-4">
-                                    <label class="flex items-center gap-3 cursor-pointer group">
-                                        <input type="radio" name="question1" class="peer hidden">
-                                        <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center text-md font-medium transition-all 
-                        peer-checked:bg-amber-500 peer-checked:border-amber-500 peer-checked:text-white">
-                                            ক</div>
-                                        <span class="text-gray-700 font-medium">আবুল মনসুর আহমদ</span>
-                                    </label>
-                                    <label class="flex items-center gap-3 cursor-pointer group">
-                                        <div class="relative flex items-center justify-center">
-                                            <input type="radio" name="question1" class="peer hidden">
-                                            <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center text-md font-medium transition-all 
-                        peer-checked:bg-amber-500 peer-checked:border-amber-500 peer-checked:text-white">
-                                                খ
-                                            </div>
-                                        </div>
-                                        <span class="text-md font-medium text-gray-700">ড. মোহাম্মদ শহীদুল্লাহ</span>
-                                    </label>
-                                    <label class="flex items-center gap-3 cursor-pointer group">
-                                        <div class="relative flex items-center justify-center">
-                                            <input type="radio" name="question1" class="peer hidden">
-                                            <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center text-md font-medium transition-all 
-                        peer-checked:bg-amber-500 peer-checked:border-amber-500 peer-checked:text-white">
-                                                গ
-                                            </div>
-                                        </div>
-                                        <span class="text-md font-medium text-gray-700">মুহাম্মদ আবদুল হাই</span>
-                                    </label>
-
-                                    <label class="flex items-center gap-3 cursor-pointer group">
-                                        <div class="relative flex items-center justify-center">
-                                            <input type="radio" name="question1" class="peer hidden">
-                                            <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center text-md font-medium transition-all 
-                        peer-checked:bg-amber-500 peer-checked:border-amber-500 peer-checked:text-white">
-                                                ঘ
-                                            </div>
-                                        </div>
-                                        <span class="text-md font-medium text-gray-700">অন্য কেউ</span>
-                                    </label>
-                                </div>
+                        <div class="swiper-slide flex items-center justify-center">
+                            <div class="w-72 h-72 flex items-center justify-center">
+                                <img src="/main/img/bangladesh book.png" alt="Bangladesh Book"
+                                    class="max-w-full max-h-full object-contain">
                             </div>
                         </div>
 
-                        <div class="swiper-slide p-6">
-                            <div class="flex flex-col">
-                                <p class="text-lg font-bold mb-6 text-gray-800">
-                                    প্রশ্ন : আন্তর্জাতিক আদালতের একজন বিচারক কয় বছরের জন্য নির্বাচিত হন?
-                                </p>
-                                <div class="grid grid-cols-2 gap-4">
-                                    <label class="flex items-center gap-3 cursor-pointer group">
-                                        <input type="radio" name="question2" class="peer hidden">
-                                        <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center text-md font-medium transition-all 
-                        peer-checked:bg-amber-500 peer-checked:border-amber-500 peer-checked:text-white">
-                                            ক</div>
-                                        <span class="text-gray-700 font-medium">৩ বছর</span>
-                                    </label>
-                                    <label class="flex items-center gap-3 cursor-pointer group">
-                                        <div class="relative flex items-center justify-center">
-                                            <input type="radio" name="question2" class="peer hidden">
-                                            <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center text-md font-medium transition-all 
-                        peer-checked:bg-amber-500 peer-checked:border-amber-500 peer-checked:text-white">
-                                                খ
-                                            </div>
-                                        </div>
-                                        <span class="text-md font-medium text-gray-700">৫ বছর</span>
-                                    </label>
+                        <div class="swiper-slide flex items-center justify-center">
+                            <div class="w-72 h-72 flex items-center justify-center">
+                                <img src="/main/img/history image.png" alt="History"
+                                    class="max-w-full max-h-full object-contain">
+                            </div>
+                        </div>
 
-                                    <label class="flex items-center gap-3 cursor-pointer group">
-                                        <div class="relative flex items-center justify-center">
-                                            <input type="radio" name="question2" class="peer hidden">
-                                            <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center text-md font-medium transition-all 
-                        peer-checked:bg-amber-500 peer-checked:border-amber-500 peer-checked:text-white">
-                                                গ
-                                            </div>
-                                        </div>
-                                        <span class="text-md font-medium text-gray-700">৭ বছর</span>
-                                    </label>
-
-                                    <label class="flex items-center gap-3 cursor-pointer group">
-                                        <div class="relative flex items-center justify-center">
-                                            <input type="radio" name="question2" class="peer hidden">
-                                            <div class="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center text-md font-medium transition-all 
-                        peer-checked:bg-amber-500 peer-checked:border-amber-500 peer-checked:text-white">
-                                                ঘ
-                                            </div>
-                                        </div>
-                                        <span class="text-md font-medium text-gray-700">৯ বছর</span>
-                                    </label>
-                                </div>
+                        <div class="swiper-slide flex items-center justify-center">
+                            <div class="w-72 h-72 flex items-center justify-center">
+                                <img src="/main/img/science book.png" alt="Science Book"
+                                    class="max-w-full max-h-full object-contain">
                             </div>
                         </div>
 
                     </div>
 
                     <div class="swiper-pagination text-amber-500"></div>
-
                 </div>
             </div>
 
         </div>
     </section>
 
-    <section class="max-w-6xl mx-auto p-8 bg-white shadow-xl h-[550px]">
+    <section class="max-w-6xl mx-auto p-8 bg-white h-[500px] sm:h-[400px]">
         <div class="flex flex-col items-center font-tiro">
             <h1 class="text-2xl font-semibold mb-8 text-amber-600 border-b-2 border-amber-500 pb-2">
-                আজকের প্রশ্ন মালা
+                আজকের প্রশ্নমালা
             </h1>
 
             <div class="w-full max-w-2xl bg-white p-1 sm:p-6">
@@ -575,7 +499,7 @@ if (!$isFinished) {
 
                         <input type="hidden" name="question_id" value="<?php echo $question['id']; ?>">
 
-                        <div class="flex items-center justify-between mt-10 border-t pt-6">
+                        <div class="flex items-center justify-between mt-4 pt-6">
                             <span class="text-gray-400 text-sm italic">ধাপ <?php echo $currentStep; ?> / 20</span>
                             <button id="nextBtn" type="submit" disabled
                                 class="py-2 px-4 border-2 border-amber-500 text-amber-600 font-semibold text-lg rounded-xl enabled:bg-amber-500 enabled:text-white disabled:opacity-50">
@@ -594,6 +518,114 @@ if (!$isFinished) {
                 <?php endif; ?>
             </div>
         </div>
+    </section>
+
+    <section id="about" class="max-w-6xl mx-auto py-12 md:py-20  bg-white ">
+        <div class="flex flex-col lg:flex-row items-center p-4 gap-10 lg:gap-16">
+
+            <div class="w-full lg:w-1/2 order-2 lg:order-1">
+                <div class="relative max-w-md mx-auto lg:max-w-full">
+
+                    <div
+                        class="absolute -inset-2 bg-gradient-to-tr from-amber-400 to-orange-500 rounded-3xl blur-xl opacity-20 transition duration-1000 group-hover:opacity-40">
+                    </div>
+
+                    <div class="relative bg-white border border-gray-100 p-4 md:p-8 rounded-3xl shadow-2xl">
+                        <div class="swiper mySwiper w-full h-auto">
+                            <div class="swiper-wrapper pb-10">
+                                <div class="swiper-slide flex items-center justify-center">
+                                    <div class="w-60 h-60 md:w-80 md:h-80 flex items-center justify-center">
+                                        <img src="/main/img/bangladesh book.png" alt="Bangladesh Book"
+                                            class="max-w-full max-h-full object-contain drop-shadow-lg">
+                                    </div>
+                                </div>
+                                <div class="swiper-slide flex items-center justify-center">
+                                    <div class="w-60 h-60 md:w-80 md:h-80 flex items-center justify-center">
+                                        <img src="/main/img/history image.png" alt="History"
+                                            class="max-w-full max-h-full object-contain drop-shadow-lg">
+                                    </div>
+                                </div>
+                                <div class="swiper-slide flex items-center justify-center">
+                                    <div class="w-60 h-60 md:w-80 md:h-80 flex items-center justify-center">
+                                        <img src="/main/img/science book.png" alt="Science Book"
+                                            class="max-w-full max-h-full object-contain drop-shadow-lg">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="absolute top-4 -right-4 md:-right-8 bg-white px-5 py-3 rounded-2xl shadow-xl border-l-4 border-amber-500 animate-bounce hidden sm:block">
+                        <span class="text-sm md:text-base font-bold text-gray-800 flex items-center gap-2">
+                            ৫০০+ কুইজ প্রশ্ন <span class="text-xl">📚</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="w-full lg:w-1/2 order-1 lg:order-2 text-center lg:text-left font-google">
+                <div class="inline-block px-4 py-1.5 mb-4 bg-amber-50 rounded-full border border-amber-100">
+                    <span class="text-black text-xs md:text-sm font-bold tracking-widest uppercase">আমাদের
+                        সম্পর্কে</span>
+                </div>
+
+                <h2 class="text-2xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 mb-6 leading-[1.2]">
+                    আপনার মেধা-বিকাশ যাচাই করার <br class="hidden lg:block">
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-orange-600">সেরা
+                        মাধ্যম</span>
+                </h2>
+
+                <p class="text-gray-600 mb-8 leading-relaxed text-base md:text-lg lg:max-w-xl">
+                    আমাদের কুইজ ওয়েবসাইটটি তৈরি করা হয়েছে শিক্ষার্থীদের সাধারণ জ্ঞান এবং মেধা বিকাশের জন্য। এখানে আপনি
+                    পাবেন ইতিহাস, বিজ্ঞান, এবং সাধারণ জ্ঞানসহ নানা বিষয়ের ওপর হাজারো প্রশ্ন।
+                </p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10">
+                    <div class="flex items-center lg:items-start gap-4 mx-auto lg:mx-0">
+                        <div class="flex-shrink-0 bg-amber-500 text-white p-2.5 rounded-xl shadow-lg shadow-amber-200">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="text-left">
+                            <h5 class="text-gray-900 font-bold">সহজ নেভিগেশন</h5>
+                            <p class="text-gray-500 text-sm">সহজেই কুইজ খুঁজে নিন।</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center lg:items-start gap-4 mx-auto lg:mx-0">
+                        <div
+                            class="flex-shrink-0 bg-orange-500 text-white p-2.5 rounded-xl shadow-lg shadow-orange-200">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                        </div>
+                        <div class="text-left">
+                            <h5 class="text-gray-900 font-bold">তাৎক্ষণিক ফলাফল</h5>
+                            <p class="text-gray-500 text-sm">তাৎক্ষণিক স্কোর দেখুন।</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                    <button
+                        class="px-10 py-4 bg-white hover:bg-amber-00 text-black font-bold rounded-xl border border-gray-200 transition-all ">
+                        শুরু করুন
+                    </button>
+                    <button
+                        class="px-10 py-4 bg-white hover:bg-gray-50 text-gray-700 font-bold rounded-xl border border-gray-200 transition-all duration-300">
+                        ভিডিও দেখুন
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
     </section>
 
 </body>
@@ -648,7 +680,7 @@ if (!$isFinished) {
             const isCorrect = (uAns === cAns);
 
             content += `
-            <div class="border-b pb-3 p-2 ${isCorrect ? 'bg-green-50' : 'bg-red-50'} rounded-lg">
+            <div class="border-b pb-3 p-2 ${isCorrect ? 'bg-green-50' : 'bg-red-50'} rounded-lg font-google">
                 <p class="font-bold text-gray-800">${index + 1}. ${q.question_text}</p>
                 
                 <p class="text-sm mt-1">
