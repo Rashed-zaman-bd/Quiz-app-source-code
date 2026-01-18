@@ -68,18 +68,10 @@ html {
     }
 }
 
-.parallax {
-  /* The image used */
-  background-image: url("./img/img_parallax.jpg");
-
-  /* Set a specific height */
-  min-height: 500px; 
-
-  /* Create the parallax scrolling effect */
-  background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+.image{
+    background-image:url(/main/img/bg.gif);
+    background-size: cover; 
+    background-position: center;
 }
 
 

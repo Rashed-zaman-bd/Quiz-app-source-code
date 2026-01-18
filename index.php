@@ -411,23 +411,31 @@ if (!$isFinished) {
             <div class="w-full max-w-2xl bg-white p-1 sm:p-6">
 
                 <?php if ($isFinished): ?>
-                    <div class="text-center py-10 animate-fade-up">
-                        <h1 class="text-xl font-medium text-amber-600 mb-4">অভিনন্দন! আপনি সবগুলো ধাপ সম্পন্ন করেছেন !! 🏆
-                        </h1>
-                        <p class="text-2xl text-gray-700 mb-6">আপনার চূড়ান্ত স্কোর:
-                            <span class="font-bold text-green-600"><?php echo $_SESSION['score'] ?? 0; ?></span>
-                        </p>
+                    <div class="text-center py-10 animate-fade-up rounded-2xl relative overflow-hidden">
 
-                        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                            <a href="index.php?reset=1"
-                                class="inline-block py-3 px-10 bg-amber-500 text-white font-bold rounded-xl hover:bg-amber-600 transition shadow-lg">
-                                আবার শুরু করুন
-                            </a>
+                        <div class="bg-white/90 p-8 m-4 rounded-xl backdrop-blur-sm shadow-2xl">
 
-                            <button onclick="showAnswers()"
-                                class="inline-block py-3 px-10 bg-gray-800 text-white font-bold rounded-xl hover:bg-gray-900 transition shadow-lg cursor-pointer">
-                                উত্তর দেখুন
-                            </button>
+                            <div id="finish-card" class=image>
+                                <h1 class="text-xl font-medium text-amber-600 mb-4">অভিনন্দন! আপনি সবগুলো ধাপ সম্পন্ন করেছেন
+                                    !!
+                                </h1>
+
+                                <p class="text-2xl text-gray-700 mb-6">আপনার চূড়ান্ত স্কোর:
+                                    <span class="font-bold text-green-600"><?php echo $_SESSION['score'] ?? 0; ?></span>
+                                </p>
+
+                                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                                    <a href="index.php?reset=1"
+                                        class="inline-block py-3 px-10 bg-amber-500 text-white font-bold rounded-xl hover:bg-amber-600 transition shadow-lg">
+                                        আবার শুরু করুন
+                                    </a>
+
+                                    <button onclick="showAnswers()"
+                                        class="inline-block py-3 px-10 bg-gray-800 text-white font-bold rounded-xl hover:bg-gray-900 transition shadow-lg cursor-pointer">
+                                        উত্তর দেখুন
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -667,6 +675,16 @@ if (!$isFinished) {
             nextBtn.classList.add('cursor-pointer');
         });
     });
+    //quiz finish image
+    setTimeout(function () {
+        const finishCard = document.getElementById('finish-card');
+        if (finishCard) {
+            finishCard.style.backgroundImage = 'none';
+            // Optional: You can also change the background color to something plain
+            finishCard.style.backgroundColor = '';
+        }
+    }, 2000);
+
     // all question answer show
     function showAnswers() {
         const questions = <?php echo json_encode($_SESSION['quiz_questions_data'] ?? []); ?>;

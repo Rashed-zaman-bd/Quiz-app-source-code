@@ -36,7 +36,7 @@ const toggleSidebar = () => {
     mobileSidebar.classList.remove("-translate-x-full");
     setTimeout(
       () => sidebarOverlay.classList.replace("opacity-0", "opacity-100"),
-      10
+      10,
     );
   }
 };
